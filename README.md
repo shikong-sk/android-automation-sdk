@@ -1,6 +1,6 @@
 # Android Automation SDK
 
-Python SDK for [Android Automation API](https://github.com/anomalyco/android-automation-api) - 基于 uiautomator2 和 adbutils 的安卓设备自动化控制 REST API 服务的 Python SDK。
+Python SDK for [Android Automation API](https://github.com/shikong-sk/android-automation-api) - 基于 uiautomator2 和 adbutils 的安卓设备自动化控制 REST API 服务的 Python SDK。
 
 ## 功能特性
 
