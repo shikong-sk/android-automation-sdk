@@ -30,7 +30,16 @@ Repository = "https://github.com/shikong-sk/android-automation-sdk"
 Issues = "https://github.com/shikong-sk/android-automation-sdk/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src"]
+packages = ["src/android_automation"]
+artifacts = ["src/android_automation"]
+
+[tool.hatch.build]
+include = [
+    "/src/android_automation",
+]
+
+[tool.hatch.scripts]
+check = "pytest"
 
 [tool.hatch.envs.default]
 dependencies = [
