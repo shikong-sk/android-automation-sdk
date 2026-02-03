@@ -40,8 +40,8 @@ def test_input_operations(client):
     result = client.input.screen_on(sync=True)
     print(f"   [OK] 亮屏: {result}")
 
-    result = client.input.screen_off(sync=True)
-    print(f"   [OK] 锁屏: {result}")
+    # result = client.input.screen_off(sync=True)
+    # print(f"   [OK] 锁屏: {result}")
 
     print("\n4. 滑动屏幕...")
     result = client.input.swipe(direction="up", percent=0.5, sync=True)
@@ -131,8 +131,11 @@ def test_app_management(client):
         battery = client.adb.get_battery_info(sync=True)
         print(f"   [OK] 电池信息:")
         print(f"   - 电量: {battery.level}%")
-        print(f"   - 状态: {battery.status}")
-        print(f"   - 温度: {battery.temperature}°C")
+        print(f"   - 状态: {battery.status} (1=未知,2=充电,3=放电,4=未充电,5=充满)")
+        print(f"   - 健康: {battery.health}")
+        print(f"   - 充电方式: {battery.plugged} (0=未充电,1=AC,2=USB,4=无线)")
+        print(f"   - 温度: {battery.temperature / 10:.1f}°C")
+        print(f"   - 电压: {battery.voltage / 1000:.2f}V")
     except Exception as e:
         print(f"   [X] 获取电池信息失败: {e}")
 
@@ -197,7 +200,9 @@ def test_script_execution(client):
         scripts = client.script.list(sync=True)
         print(f"   [OK] 脚本数量: {len(scripts)}")
         for script in scripts[:5]:
-            print(f"   - {script.name} ({script.size} bytes)")
+            if isinstance(script, dict):
+                name = script.get('name', script.get('data', str(script)))
+                print(f"   - {name}")
     except Exception as e:
         print(f"   [X] 获取脚本列表失败: {e}")
 

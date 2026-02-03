@@ -104,11 +104,16 @@ class BatteryInfo(BaseModel):
 
     level: int = Field(..., description="电量百分比")
     scale: int = Field(..., description="电量刻度")
-    status: str = Field(..., description="状态")
-    health: str = Field(..., description="健康状况")
-    plugged: str = Field(..., description="充电方式")
-    temperature: float = Field(..., description="温度")
-    voltage: int = Field(..., description="电压")
+    status: int = Field(..., description="状态(1=未知,2=充电中,3=放电中,4=未充电,5=已充满)")
+    health: int = Field(..., description="健康状况(1=未知,2=良好,3=过热,4=坏,5=过压,6=不可用)")
+    plugged: int = Field(..., description="充电方式(0=未充电,1=AC充电,2=USB充电,4=无线充电)")
+    temperature: float = Field(..., description="温度（0.1度）")
+    voltage: int = Field(..., description="电压（毫伏）")
+    ac_powered: Optional[bool] = Field(None, description="是否使用AC电源")
+    usb_powered: Optional[bool] = Field(None, description="是否使用USB电源")
+    wireless_powered: Optional[bool] = Field(None, description="是否使用无线充电")
+    charging: Optional[bool] = Field(None, description="是否正在充电")
+    scale_value: Optional[int] = Field(None, description="电量刻度值")
 
 
 class ScreenResolution(BaseModel):

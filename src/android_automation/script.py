@@ -7,8 +7,6 @@ if TYPE_CHECKING:
     from .client import AndroidAutomation
 
 from .types import (
-    ScriptInfo,
-    ScriptContent,
     ExecutionResult,
     ScriptValidation,
 )
@@ -38,7 +36,7 @@ class ScriptClient:
             import asyncio
             return asyncio.run(self._client._request(method, f"script/{path}", params=params, json_data=json_data))
 
-    def list(self, sync: bool = False) -> List[ScriptInfo]:
+    def list(self, sync: bool = False) -> List[Dict[str, Any]]:
         """获取脚本列表.
 
         Args:
@@ -48,7 +46,11 @@ class ScriptClient:
             脚本信息列表
         """
         data = self._make_request("GET", "list", sync=sync)
-        return [ScriptInfo(**script) for script in data]
+        if isinstance(data, list):
+            return [script if isinstance(script, dict) else {"data": script} for script in data]
+        elif isinstance(data, dict):
+            return [data]
+        return []
 
     def get(self, name: str, sync: bool = False) -> Dict[str, str]:
         """获取脚本内容.
